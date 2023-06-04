@@ -13,8 +13,27 @@ class Petugas_model extends CI_Model {
     return $query->result_array();
   }
 
-  public function add($data){
+  public function readByID($id){
+    $this->db->select('*');
+    $this->db->from('petugas');
+    $this->db->where('id_petugas', $id);
 
+    $query = $this->db->get();
+
+    return $query->row_array();
+  }
+
+  public function add($data){
     return $this->db->insert('petugas', $data);
+  }
+
+  public function update($id, $data){
+    $this->db->where('id_petugas', $id);
+    return $this->db->update('petugas', $data);
+  }
+
+  public function delete($id){
+    $this->db->where('id_petugas', $id);
+    return $this->db->delete('petugas');
   }
 }

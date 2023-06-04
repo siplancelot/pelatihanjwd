@@ -30,8 +30,9 @@
 								<td><?php echo $items["telp_petugas"] ;?></td>
 								<td><?php echo $items["email_petugas"] ;?></td>
 								<td>
-									<a href="#" class="btn btn-warning">Update</a>
-									<a href="#" class="btn btn-danger">Delete</a>
+									<a href="<?php echo base_url('petugas/update/'.$items["id_petugas"]); ?>" class="btn btn-warning">Update</a>
+									<a href="<?= base_url('petugas/delete/'.$items["id_petugas"]) ;?>" class=" btn btn-danger" onClick="return confirm('Apakah anda yakin?')">Delete</a>
+								
 								</td>
 							</tr>
 					<?php endforeach ;?>
