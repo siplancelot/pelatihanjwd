@@ -7,7 +7,8 @@
 
 	<div class="card">
 		<div class="card-body">
-			<form action="<?php echo base_url('petugas/add') ;?>" method="POST">
+		<?= $this->session->flashdata('message');?>
+			<form action="<?php echo base_url('petugas/add') ;?>" method="POST" enctype="multipart/form-data">
 				<div class="row">
 					<div class="col-lg-12 d-flex justify-content-center">
 						<div class="form-group mb-3 w-50">
@@ -31,6 +32,14 @@
 							<input type="email" name="email" id="Email" class="form-control"
 								value="<?= set_value('email') ;?>">
 							<?= form_error('email', '<small class="text-danger">', '</small>') ;?>
+						</div>
+					</div>
+					<div class="col-lg-12 d-flex justify-content-center">
+						<div class="form-group mb-3 w-50">
+							<label>Foto</label>
+							
+							<input type="file" name="foto" id="foto" class="form-control">
+							
 						</div>
 					</div>
 					<div class="col-lg-12 d-flex justify-content-center">

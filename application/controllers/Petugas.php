@@ -6,12 +6,15 @@ class Petugas extends CI_Controller {
 	public function __construct(){
 
     parent:: __construct();
+
+		if (!$this->session->userdata('email')) {
+			redirect('auth/login');
+		}
 	
     $this->load->model(array('petugas_model'));
     
   }
 
-	
 	public function index()
 	{
 
@@ -40,15 +43,40 @@ class Petugas extends CI_Controller {
 			$this->load->view('theme/index', $data);
 		} else {
 
-			$input = array(
-				'nama_petugas' => $this->input->post('nama'),
-				'telp_petugas' => $this->input->post('telpon'),
-				'email_petugas' => $this->input->post('email')
-			);
+			$config = array (
+        'upload_path'    => './upload',
+        'allowed_types'  => 'jpg|jpeg|png',
+        'max_size'       => 10000 
+      );
 
-			$this->petugas_model->add($input);
+			$this->load->library('upload', $config);
 
-			redirect('petugas');
+			if (!$this->upload->do_upload('foto')) {
+				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Foto wajib diisi!!</div>');
+
+				$data = array(
+					'page' => 'petugas/add',
+					'judul' => 'Tambah Data Petugas'
+				);
+		
+				$this->load->view('theme/index', $data);
+			} else {
+
+				$this->upload->do_upload('foto');
+        $file = $this->upload->data('file_name');
+
+				$input = array(
+					'nama_petugas' => $this->input->post('nama'),
+					'telp_petugas' => $this->input->post('telpon'),
+					'email_petugas' => $this->input->post('email'),
+					'foto_petugas' => $file
+				);
+
+				$this->petugas_model->add($input);
+
+				redirect('petugas');
+			}
+		
 		}
 	}
 
@@ -72,16 +100,44 @@ class Petugas extends CI_Controller {
 	
 			$this->load->view('theme/index', $data);
 		} else {
+
+			$config = array (
+        'upload_path'    => './upload',
+        'allowed_types'  => 'jpg|jpeg|png',
+        'max_size'       => 10000 
+      );
+
+			$this->load->library('upload', $config);
+
+			if (!$this->upload->do_upload('foto')) {
+				$input = array(
+					'nama_petugas' => $this->input->post('nama'),
+					'telp_petugas' => $this->input->post('telpon'),
+					'email_petugas' => $this->input->post('email')
+				);
+	
+				$this->petugas_model->update($id, $input);
+	
+				redirect('petugas');
+			} else {
+				$this->upload->do_upload('foto');
+        $file = $this->upload->data('file_name');
+
+				$input = array(
+					'nama_petugas' => $this->input->post('nama'),
+					'telp_petugas' => $this->input->post('telpon'),
+					'email_petugas' => $this->input->post('email'),
+					'foto_petugas' => $file
+
+				);
+	
+				$this->petugas_model->update($id, $input);
+	
+				redirect('petugas');
+			}
+
 			
-			$input = array(
-				'nama_petugas' => $this->input->post('nama'),
-				'telp_petugas' => $this->input->post('telpon'),
-				'email_petugas' => $this->input->post('email')
-			);
-
-			$this->petugas_model->update($id, $input);
-
-			redirect('petugas');
+			
 		}
 		
 	}

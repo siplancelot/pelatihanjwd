@@ -17,6 +17,7 @@
 							<th>Nama Petugas</th>
 							<th>No. Telp</th>
 							<th>Email</th>
+							<th>Foto</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -29,6 +30,7 @@
 								<td><?php echo $items["nama_petugas"] ;?></td>
 								<td><?php echo $items["telp_petugas"] ;?></td>
 								<td><?php echo $items["email_petugas"] ;?></td>
+								<td><img src="<?php echo base_url('upload/'.$items['foto_petugas']) ?> " width="100px" alt=""></td>
 								<td>
 									<a href="<?php echo base_url('petugas/update/'.$items["id_petugas"]); ?>" class="btn btn-warning">Update</a>
 									<a href="<?= base_url('petugas/delete/'.$items["id_petugas"]) ;?>" class=" btn btn-danger" onClick="return confirm('Apakah anda yakin?')">Delete</a>
